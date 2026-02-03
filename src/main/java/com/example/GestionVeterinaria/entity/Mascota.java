@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name ="Mascota")
 @Getter
@@ -35,6 +37,12 @@ public class Mascota {
     @ManyToOne
     @JoinColumn(name = "cliente_id",nullable = false)
     private Cliente cliente;
+
+    @OneToMany(mappedBy = "mascota", cascade = CascadeType.ALL)
+    private List<HistorialClinico> historiales;
+
+    @OneToMany(mappedBy = "mascota", cascade = CascadeType.ALL)
+    private List<Cita> citas;
 
 
 }

@@ -34,6 +34,10 @@ public class HistorialClinico {
     private String observaciones;
 
     //Clave de 1 a uno
+    @ManyToOne
+    @JoinColumn(name = "mascota_id", nullable = false)
+    private Mascota mascota;
+
 
 
 }
