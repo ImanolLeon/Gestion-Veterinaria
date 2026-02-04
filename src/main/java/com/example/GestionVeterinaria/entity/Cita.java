@@ -35,6 +35,9 @@ public class Cita {
     @JoinColumn(name = "mascota_id",nullable = false)
     private Mascota mascota;
 
+
+    @Column(length = 100)
+    private String estado;
     @ManyToOne
     @JoinColumn(name = "veterinario_id",nullable = false)
     private Veterinario veterinario;
