@@ -27,22 +27,30 @@ public class MascotaService {
 
     // Listar mascotas por cliente
     public List<Mascota> listarPorCliente(Long clienteId) {
+        if(!clienteRepository.existsById(clienteId)){
+            throw  new RuntimeException("Cliente no encontrado");
+        }
         return mascotaRepository.findByCliente_id(clienteId);
     }
 
-    // Guardar mascota asociada a un cliente
-    public Mascota guardar(Mascota mascota, Long clienteId) {
+   public Mascota buscarPorId(Long id){
+     return mascotaRepository.findById(id).orElseThrow(()->
+             new RuntimeException("Mascota no encontrada"));
+   }
 
-        Cliente cliente = clienteRepository.findById(clienteId)
-                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
-
+   //Registrar mascota
+    public Mascota registrar(Mascota mascota, Long id_cliente){
+        Cliente cliente= clienteRepository.findById(id_cliente).
+                orElseThrow(()-> new RuntimeException("Cliente no encontrado"));
+        //Asociamos cliente con mascota
         mascota.setCliente(cliente);
-
         return mascotaRepository.save(mascota);
     }
 
-    // Eliminar mascota
-    public void eliminar(Long mascotaId) {
-        mascotaRepository.deleteById(mascotaId);
+
+    //Eliminar por id
+    public void eliminarMascota(Long id){
+        Mascota mascota= buscarPorId(id);
+        mascotaRepository.delete(mascota);
     }
 }

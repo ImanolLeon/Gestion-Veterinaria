@@ -30,7 +30,7 @@ public class ClienteService {
     }
 
 
-    public Cliente guardar(Cliente cliente){
+    public Cliente registrar(Cliente cliente){
 
         if(clienteRepository.existDni(cliente.getDni())){
             throw  new RuntimeException("el dni ya está registrado");
