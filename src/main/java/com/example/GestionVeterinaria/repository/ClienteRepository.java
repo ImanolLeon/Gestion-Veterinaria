@@ -10,7 +10,7 @@ public interface ClienteRepository extends JpaRepository<Cliente,Long> {
     Cliente findByDni(String dni);
 
     //Verificar si existe el dni
-    boolean existDni(String dni);
+    boolean existsByDni(String dni);
 
 
 }

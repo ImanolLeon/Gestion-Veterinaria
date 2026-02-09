@@ -32,7 +32,7 @@ public class ClienteService {
 
     public Cliente registrar(Cliente cliente){
 
-        if(clienteRepository.existDni(cliente.getDni())){
+        if(clienteRepository.existsByDni(cliente.getDni())){
             throw  new RuntimeException("el dni ya está registrado");
         }
 

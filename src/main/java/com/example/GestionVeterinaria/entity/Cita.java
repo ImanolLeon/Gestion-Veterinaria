@@ -23,7 +23,7 @@ public class Cita {
     private Long id;
 
     @Column(name = "Fecha_cita")
-    private LocalDate fecha_cita;
+    private LocalDate fechaCita;
 
     @Column(name = "hora_cita")
     private LocalDateTime hora_cita;

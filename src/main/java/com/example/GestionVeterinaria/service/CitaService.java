@@ -56,7 +56,7 @@ public class CitaService {
     }
 
     public List<Cita> listarPorFecha (LocalDate fecha_cita){
-        return citaRepository.findByFecha(fecha_cita);
+        return citaRepository.findByFechaCita(fecha_cita);
     }
 
     public void cambiarEstadoCita (Long cita_id , String estado){
