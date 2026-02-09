@@ -50,7 +50,7 @@ public class MascotaController {
     public String guardarMascota(@PathVariable Long clienteId,
                                  @ModelAttribute Mascota mascota) {
 
-        mascotaService.guardar(mascota, clienteId);
+        mascotaService.registrar(mascota, clienteId);
 
         return "redirect:/clientes/" + clienteId + "/mascotas";
     }

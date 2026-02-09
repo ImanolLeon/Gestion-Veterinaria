@@ -8,6 +8,7 @@ import com.example.GestionVeterinaria.repository.MascotaRepository;
 import com.example.GestionVeterinaria.repository.VeterinarioRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -48,6 +49,23 @@ public class CitaService {
 
     public List<Cita> listarPorMascota(Long id_mascota){
         return citaRepository.findByMascotaId(id_mascota);
+    }
+
+    public List<Cita> listarPorVeterinario (Long id_veterinario){
+        return  citaRepository.findByVeterinario(id_veterinario);
+    }
+
+    public List<Cita> listarPorFecha (LocalDate fecha_cita){
+        return citaRepository.findByFecha(fecha_cita);
+    }
+
+    public void cambiarEstadoCita (Long cita_id , String estado){
+        Cita cita1 = citaRepository.findById(cita_id).
+                orElseThrow(()->new RuntimeException("No se encontró cita"));
+
+        cita1.setEstado(estado);
+        //Guardamos
+        citaRepository.save(cita1);
     }
 
 
