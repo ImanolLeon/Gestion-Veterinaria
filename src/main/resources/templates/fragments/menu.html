@@ -1,0 +1,17 @@
+<nav xmlns:th="http://www.thymeleaf.org"
+     xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+     th:fragment="menu">
+
+  <a th:href="@{/citas}">Agenda</a>
+  <a th:href="@{/citas/nueva}">Nueva Cita</a>
+
+  <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin}">
+    Administración
+  </a>
+
+  <span sec:authorize="isAuthenticated()">
+        Usuario: <b sec:authentication="name"></b>
+    </span>
+
+  <a th:href="@{/logout}">Salir</a>
+</nav>

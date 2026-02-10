@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<h2>Registrar Cita</h2>
+
+<form th:action="@{/citas/guardar}" th:object="${cita}" method="post">
+
+    <!-- Mascota -->
+    <label>Mascota:</label>
+    <select name="mascotaId" required>
+        <option value="">Seleccione</option>
+        <option th:each="m : ${mascotas}"
+                th:value="${m.id}"
+                th:text="${m.nombre}">
+        </option>
+    </select>
+
+    <br>
+
+    <!-- Veterinario -->
+    <label>Veterinario:</label>
+    <select name="veterinarioId" required>
+        <option value="">Seleccione</option>
+        <option th:each="v : ${veterinarios}"
+                th:value="${v.id}"
+                th:text="${v.nombre}">
+        </option>
+    </select>
+
+    <br>
+
+    <!-- Fecha -->
+    <label>Fecha:</label>
+    <input type="date" th:field="*{fechaCita}" required>
+
+    <br>
+
+    <!-- Hora -->
+    <label>Hora:</label>
+    <input type="time" th:field="*{hora_cita}" required>
+
+    <br>
+
+    <!-- Motivo -->
+    <label>Motivo:</label>
+    <textarea th:field="*{motivo}" required></textarea>
+
+    <br>
+
+    <button type="submit">Registrar</button>
+</form>
+
+</body>
+</html>

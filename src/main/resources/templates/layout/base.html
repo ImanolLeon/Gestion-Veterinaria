@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Veterinaria</title>
+</head>
+
+<body>
+
+<header th:replace="fragments/menu :: menu"></header>
+
+<main>
+    <div th:replace="${contenido}"></div>
+</main>
+
+</body>
+</html>

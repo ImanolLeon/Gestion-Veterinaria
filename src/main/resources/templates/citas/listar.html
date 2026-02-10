@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<h2>Agenda de Citas</h2>
+
+<table>
+    <tr>
+        <th>Fecha</th>
+        <th>Mascota</th>
+        <th>Veterinario</th>
+        <th>Estado</th>
+    </tr>
+
+    <tr th:each="cita : ${citas}">
+        <td th:text="${cita.fechaCita}"></td>
+        <td th:text="${cita.mascota.nombre}"></td>
+        <td th:text="${cita.veterinario.nombre}"></td>
+        <td th:text="${cita.estado}"></td>
+    </tr>
+</table>
+
+</body>
+</html>
