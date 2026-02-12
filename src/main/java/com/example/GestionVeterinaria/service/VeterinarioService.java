@@ -1,6 +1,7 @@
 package com.example.GestionVeterinaria.service;
 
 import com.example.GestionVeterinaria.entity.Veterinario;
+import com.example.GestionVeterinaria.repository.CitaRepository;
 import com.example.GestionVeterinaria.repository.VeterinarioRepository;
 import org.springframework.stereotype.Service;
 
@@ -10,11 +11,12 @@ import java.util.List;
 public class VeterinarioService {
 
     private final VeterinarioRepository veterinarioRepository;
+    private  final CitaRepository citaRepository;
 
-
-    public VeterinarioService(VeterinarioRepository veterinarioRepository) {
+    public VeterinarioService(VeterinarioRepository veterinarioRepository, CitaRepository citaRepository) {
         this.veterinarioRepository = veterinarioRepository;
 
+        this.citaRepository = citaRepository;
     }
 
     public List<Veterinario> listarTodos(){
@@ -32,5 +34,9 @@ public class VeterinarioService {
 
     public void eliminarVeterinario(Veterinario id_veterinario){
         veterinarioRepository.delete(id_veterinario);
+    }
+    public  int contarCitas(Long veterinarioId) {
+        return citaRepository.countByVeterinarioId(veterinarioId);
+
     }
 }

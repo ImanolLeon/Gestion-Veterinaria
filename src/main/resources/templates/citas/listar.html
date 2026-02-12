@@ -10,6 +10,7 @@
         <th>Mascota</th>
         <th>Veterinario</th>
         <th>Estado</th>
+        <th> Accion</th>
     </tr>
 
     <tr th:each="cita : ${citas}">
@@ -17,6 +18,7 @@
         <td th:text="${cita.mascota.nombre}"></td>
         <td th:text="${cita.veterinario.nombre}"></td>
         <td th:text="${cita.estado}"></td>
+        <td> <button>Eliminar</button></td>
     </tr>
 </table>
 

@@ -27,7 +27,7 @@ public class CitaControlador {
     @GetMapping
     public String listarCitas(Model model){
         model.addAttribute("contenido","citas/listar");
-        model.addAttribute("citas",citaService.listarPorFecha(LocalDate.now()));
+        model.addAttribute("citas",citaService.listarTodo());
         return "layout/base";
     }
 
@@ -36,15 +36,16 @@ public class CitaControlador {
         model.addAttribute("contenido","citas/formulario");
         model.addAttribute("cita",new Cita());
         model.addAttribute("mascotas",mascotaService.listarTodas());
+        model.addAttribute("veterinarios",veterinarioRepository.findAll());
         return "layout/base";
     }
 
     @PostMapping("/guardar")
     public String guardar(@ModelAttribute Cita cita,
-                          @RequestParam Long id_mascota,
-                          @RequestParam Long id_veterinario){
+                          @RequestParam Long mascotaId,
+                          @RequestParam Long veterinarioId){
 
-        citaService.registrarCita(cita,id_mascota,id_veterinario);
+        citaService.registrarCita(cita,mascotaId,veterinarioId);
         return "redirect:/citas";
 
     }

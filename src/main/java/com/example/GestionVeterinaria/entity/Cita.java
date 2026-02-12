@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "Cita")
@@ -22,14 +23,15 @@ public class Cita {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "Fecha_cita")
+    @Column(name = "FechaCita")
     private LocalDate fechaCita;
 
-    @Column(name = "hora_cita")
-    private LocalDateTime hora_cita;
+    @Column(name = "horaCita")
+    private LocalTime horaCita;
 
     @Column (length = 100)
     private String motivo;
+
 
     @ManyToOne
     @JoinColumn(name = "mascota_id",nullable = false)
@@ -38,6 +40,7 @@ public class Cita {
 
     @Column(length = 100)
     private String estado;
+
     @ManyToOne
     @JoinColumn(name = "veterinario_id",nullable = false)
     private Veterinario veterinario;

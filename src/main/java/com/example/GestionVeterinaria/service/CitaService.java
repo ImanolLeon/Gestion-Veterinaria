@@ -47,6 +47,9 @@ public class CitaService {
 
     }
 
+    public List<Cita> listarTodo(){
+        return citaRepository.findAll();
+    }
     public List<Cita> listarPorMascota(Long id_mascota){
         return citaRepository.findByMascotaId(id_mascota);
     }

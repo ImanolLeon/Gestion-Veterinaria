@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/clientes")
+@RequestMapping("veterinarios")
 public class VeterinarioController
 {
 
@@ -23,19 +23,19 @@ public class VeterinarioController
     @GetMapping
     public String listarVeterinarios(Model model){
         model.addAttribute("veterinarios",veterinarioService.listarTodos());
+        model.addAttribute("veterinarioService",veterinarioService);
         return "veterinarios/listar";
     }
-
     @GetMapping("/nuevo")
     public  String nuevoVeterinario(Model model){
         model.addAttribute("veterinario",new Veterinario());
-        return "veterinario/formulario";
+        return "veterinarios/formulario";
     }
 
     @PostMapping("/guardar")
     public String guardar(@ModelAttribute Veterinario veterinario){
         veterinarioService.registraVeterinario(veterinario);
-        return "redirect:/veterinario";
+        return "redirect:/veterinarios";
     }
 
 
