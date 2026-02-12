@@ -34,6 +34,8 @@ public class Mascota {
     @Column (length = 10)
     private String sexo;
 
+    @Column(nullable = false)
+    private  double peso;
     @ManyToOne
     @JoinColumn(name = "cliente_id",nullable = false)
     private Cliente cliente;

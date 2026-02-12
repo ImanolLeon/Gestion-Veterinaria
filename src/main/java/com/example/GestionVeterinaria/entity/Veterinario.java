@@ -27,7 +27,7 @@ public class Veterinario {
     private String especialidad;
 
     @Column(length = 50)
-    private String telefono;
+    private String telefono; 
 
     @OneToMany(mappedBy = "veterinario")
     private List<Cita> citas;

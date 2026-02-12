@@ -22,13 +22,15 @@ public class DataInitializer {
                 admin.setPassword(passwordEncoder.encode("admin123"));
                 admin.setRol("ADMIN");
 
-                Usuarios usuario1= new Usuarios();
-                usuario1.setUsername("usuario");
-                usuario1.setPassword(passwordEncoder.encode("usuario"));
-                usuario1.setRol("USER");
+                Usuarios usuario= new Usuarios();
+                usuario.setUsername("usuario");
+                usuario.setPassword(passwordEncoder.encode("usuario"));
+                usuario.setRol("USER");
+
+
 
                 usuarioRepository.save(admin);
-                usuarioRepository.save(usuario1);
+                usuarioRepository.save(usuario);
             }
         };
     }

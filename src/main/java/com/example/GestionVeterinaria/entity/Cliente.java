@@ -20,14 +20,14 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 7 ,nullable = false, unique = true)
+    @Column(length = 8 ,nullable = false, unique = true)
     private String dni;
 
     @Column(length = 100,nullable = false)
-    private String nombres;
+    private String nombre;
 
     @Column(length = 100,nullable = false)
-    private  String apellidos;
+    private  String apellido;
 
     @Column(length = 9)
     private String telefono;
