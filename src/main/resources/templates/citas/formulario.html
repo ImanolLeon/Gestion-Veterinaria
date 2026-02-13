@@ -3,15 +3,17 @@
 
 <body>
 
+<div class="contenedorCitas">
 <h2>Registrar Cita</h2>
 
 <form th:action="@{/citas/guardar}"
       th:object="${cita}"
       method="post">
+    <div class="formularioCitas">
 
     <!-- Mascota -->
-    <label>Mascota:</label>
-    <select name="mascotaId" required>
+    <label  class="form-label">Mascota:</label>
+    <select class="form-select" aria-label="mascotas" name="mascotaId" required>
         <option value="">Seleccione</option>
         <option th:each="m : ${mascotas}"
                 th:value="${m.id}"
@@ -19,11 +21,11 @@
         </option>
     </select>
 
-    <br>
+
 
     <!-- Veterinario -->
-    <label>Veterinario:</label>
-    <select name="veterinarioId" required>
+    <label class="form-label">Veterinario:</label>
+    <select class="form-select" name="veterinarioId" required>
         <option value="">Seleccione</option>
         <option th:each="v : ${veterinarios}"
                 th:value="${v.id}"
@@ -31,28 +33,32 @@
         </option>
     </select>
 
-    <br>
+
+
 
     <!-- Fecha -->
-    <label>Fecha:</label>
-    <input type="date" th:field="*{fechaCita}" required>
+    <label class="form-label">Fecha:</label>
+    <input  class="form-control" type="date" th:field="*{fechaCita}" required>
 
-    <br>
+
+
 
     <!-- Hora -->
-    <label>Hora:</label>
-    <input type="time" th:field="*{horaCita}" required>
+    <label class="form-label">Hora:</label>
+    <input  class="form-control" type="time" th:field="*{horaCita}" required>
 
-    <br>
+
 
     <!-- Motivo -->
-    <label>Motivo:</label>
-    <textarea th:field="*{motivo}" required></textarea>
+    <label class="form-label">Motivo:</label>
+    <textarea class="form-control"
+              th:field="*{motivo}" required></textarea>
 
-    <br>
 
-    <button type="submit">Registrar</button>
+
+    <button type="submit"  class="btn btn-success" >Registrar</button>
+    </div>
 </form>
-
+</div>
 </body>
 </html>
