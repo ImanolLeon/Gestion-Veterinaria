@@ -41,8 +41,7 @@ public class MascotaController {
 
         model.addAttribute("mascota", new Mascota());
         model.addAttribute("clienteId", clienteId);
-//nuevo comentario
-        //nuevo
+
         return "mascotas/formulario";
     }
 
