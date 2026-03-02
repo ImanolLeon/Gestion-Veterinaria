@@ -72,6 +72,10 @@ public class CitaService {
         citaRepository.save(cita1);
     }
 
+    public  void eliminarCita(Long idCita){
+        citaRepository.deleteById(idCita);
+    }
+
 
 
 }

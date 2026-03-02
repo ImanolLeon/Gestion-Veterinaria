@@ -18,6 +18,9 @@ public class VeterinarioService {
 
         this.citaRepository = citaRepository;
     }
+    public  void eliminarVeterinario(Long id){
+        veterinarioRepository.deleteById(id);
+    }
 
     public List<Veterinario> listarTodos(){
         return veterinarioRepository.findAll();

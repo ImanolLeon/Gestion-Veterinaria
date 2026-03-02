@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>Panel de Administración</h2>
+<h3>Clientes</h3>
+<table>
+  <tr th:each="c : ${clientes}">
+    <td th:text="${c.nombre}"></td>
+    <td>
+      <a th:href="@{/admin/eliminarCliente/{id}(id=${c.id})}">
+        Eliminar
+      </a>
+    </td>
+  </tr>
+</table>
+
+<h3>Veterinarios</h3>
+<table>
+  <tr th:each="v : ${veterinarios}">
+    <td th:text="${v.nombre}"></td>
+    <td>
+      <a th:href="@{/admin/eliminarVeterinario/{id}(id=${v.id})}">
+        Eliminar
+      </a>
+    </td>
+  </tr>
+</table>
+
+<h3>Citas</h3>
+<table>
+  <tr th:each="c : ${citas}">
+    <td th:text="${c.fechaCita}"></td>
+    <td>
+      <a th:href="@{/admin/eliminarCita/{id}(id=${c.id})}">
+        Eliminar
+      </a>
+    </td>
+  </tr>
+</table>
+<a th:href="@{/}"> atrás</a>
+</body>
+</html>
