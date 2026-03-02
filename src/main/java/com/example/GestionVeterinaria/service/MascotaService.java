@@ -20,37 +20,41 @@ public class MascotaService {
         this.clienteRepository = clienteRepository;
     }
 
-    // Listar todas las mascotas
     public List<Mascota> listarTodas() {
         return mascotaRepository.findAll();
     }
 
-    // Listar mascotas por cliente
     public List<Mascota> listarPorCliente(Long clienteId) {
-        if(!clienteRepository.existsById(clienteId)){
-            throw  new RuntimeException("Cliente no encontrado");
+        if (!clienteRepository.existsById(clienteId)) {
+            throw new RuntimeException("Cliente no encontrado");
         }
-        return mascotaRepository.findByCliente_id(clienteId);
+        return mascotaRepository.findByCliente_Id(clienteId);    }
+
+    public Mascota buscarPorId(Long id) {
+        return mascotaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Mascota no encontrada"));
     }
 
-   public Mascota buscarPorId(Long id){
-     return mascotaRepository.findById(id).orElseThrow(()->
-             new RuntimeException("Mascota no encontrada"));
-   }
+    public Mascota guardar(Mascota mascota, Long clienteId) {
 
-   //Registrar mascota
-    public Mascota registrar(Mascota mascota, Long id_cliente){
-        Cliente cliente= clienteRepository.findById(id_cliente).
-                orElseThrow(()-> new RuntimeException("Cliente no encontrado"));
-        //Asociamos cliente con mascota
+        if (mascota.getEdad() < 0) {
+            throw new RuntimeException("La edad no puede ser negativa");
+        }
+
+        if (mascota.getNombre() == null || mascota.getNombre().isBlank()) {
+            throw new RuntimeException("El nombre es obligatorio");
+        }
+
+        Cliente cliente = clienteRepository.findById(clienteId)
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+
         mascota.setCliente(cliente);
+
         return mascotaRepository.save(mascota);
     }
 
-
-    //Eliminar por id
-    public void eliminarMascota(Long id){
-        Mascota mascota= buscarPorId(id);
+    public void eliminar(Long id) {
+        Mascota mascota = buscarPorId(id);
         mascotaRepository.delete(mascota);
     }
 }

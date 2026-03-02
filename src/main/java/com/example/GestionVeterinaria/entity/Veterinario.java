@@ -26,16 +26,12 @@ public class Veterinario {
     @Column(length = 50)
     private String especialidad;
 
-    @Column(length = 50)
+    @Column(length = 50, unique = true)
     private String telefono;
+
+    @Column(nullable = false)
+    private boolean activo = true;
 
     @OneToMany(mappedBy = "veterinario")
     private List<Cita> citas;
-
-
-
-
-
-
-
 }

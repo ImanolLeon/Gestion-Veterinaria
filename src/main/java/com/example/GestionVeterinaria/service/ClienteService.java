@@ -4,48 +4,51 @@ import com.example.GestionVeterinaria.entity.Cliente;
 import com.example.GestionVeterinaria.repository.ClienteRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
 public class ClienteService {
 
-    //Inicializamos el repositorio
     private final ClienteRepository clienteRepository;
-
 
     public ClienteService(ClienteRepository clienteRepository) {
         this.clienteRepository = clienteRepository;
     }
 
-    //listar clientes
-    public List<Cliente> listarTodos(){
+    // Listar
+    public List<Cliente> listarTodos() {
         return clienteRepository.findAll();
     }
 
-    //Buscar cliente por id
-    public Cliente devolverCliente_id(Long id) {
-        return clienteRepository.findById(id).
-                orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+    // Buscar por ID
+    public Cliente buscarPorId(Long id) {
+        return clienteRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
     }
 
+    // Buscar por nombre
+    public List<Cliente> buscarPorNombre(String nombre) {
+        return clienteRepository.findByNombresContainingIgnoreCase(nombre);
+    }
 
-    public Cliente registrar(Cliente cliente){
+    // Registrar
+    public Cliente registrar(Cliente cliente) {
 
-        if(clienteRepository.existsByDni(cliente.getDni())){
-            throw  new RuntimeException("el dni ya está registrado");
+        if (clienteRepository.existsByDni(cliente.getDni())) {
+            throw new IllegalArgumentException("El DNI ya está registrado");
         }
 
-        cliente.setFechRegistro(LocalDate.now());
         return clienteRepository.save(cliente);
-
     }
 
-    //Eliminar cliente
-    public void eliminar(Long id){
-        Cliente cliente =devolverCliente_id(id);
+    // Actualizar
+    public Cliente actualizar(Cliente cliente) {
+        return clienteRepository.save(cliente);
+    }
+
+    // Eliminar
+    public void eliminar(Long id) {
+        Cliente cliente = buscarPorId(id);
         clienteRepository.delete(cliente);
     }
-
-
 }

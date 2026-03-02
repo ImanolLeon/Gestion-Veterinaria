@@ -1,73 +1,86 @@
 package com.example.GestionVeterinaria.service;
 
-import com.example.GestionVeterinaria.entity.Cita;
-import com.example.GestionVeterinaria.entity.Mascota;
-import com.example.GestionVeterinaria.entity.Veterinario;
+import com.example.GestionVeterinaria.entity.*;
 import com.example.GestionVeterinaria.repository.CitaRepository;
 import com.example.GestionVeterinaria.repository.MascotaRepository;
 import com.example.GestionVeterinaria.repository.VeterinarioRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public class CitaService {
 
-    //llamamos metodos
     private final CitaRepository citaRepository;
     private final MascotaRepository mascotaRepository;
     private final VeterinarioRepository veterinarioRepository;
 
-
-    //constructores
-    public CitaService(CitaRepository citaRepository, MascotaRepository mascotaRepository, VeterinarioRepository veterinarioRepository) {
+    public CitaService(CitaRepository citaRepository,
+                       MascotaRepository mascotaRepository,
+                       VeterinarioRepository veterinarioRepository) {
         this.citaRepository = citaRepository;
         this.mascotaRepository = mascotaRepository;
         this.veterinarioRepository = veterinarioRepository;
     }
 
+    public Cita registrarCita(Cita cita, Long idMascota, Long idVeterinario){
 
-    public Cita registrarCita(Cita cita,Long id_Mascota,Long id_Veterinario){
-        //Validar datos
-        Mascota mascota = mascotaRepository.findById(id_Mascota).
-                orElseThrow(()->new RuntimeException("Mascota no encontrada"));
+        if(cita.getFechaHora().isBefore(LocalDateTime.now())){
+            throw new RuntimeException("No se puede registrar una cita en el pasado");
+        }
 
-        Veterinario veterinario = veterinarioRepository.findById(id_Veterinario).
-                orElseThrow(()->new RuntimeException("Veterinario no encontrado"));
+        Mascota mascota = mascotaRepository.findById(idMascota)
+                .orElseThrow(() -> new RuntimeException("Mascota no encontrada"));
 
-        //Asociamos relaciones
+        Veterinario veterinario = veterinarioRepository.findById(idVeterinario)
+                .orElseThrow(() -> new RuntimeException("Veterinario no encontrado"));
+
+        if(!veterinario.isActivo()){
+            throw new RuntimeException("El veterinario está inactivo");
+        }
+
+        boolean ocupado = citaRepository
+                .existsByVeterinarioIdAndFechaHora(idVeterinario, cita.getFechaHora());
+
+        if(ocupado){
+            throw new RuntimeException("El veterinario ya tiene una cita en ese horario");
+        }
+
         cita.setMascota(mascota);
         cita.setVeterinario(veterinario);
+        cita.setEstado(EstadoCita.PROGRAMADA);
 
-        cita.setEstado("Programada");
-
-        //Para guardar es save
         return citaRepository.save(cita);
-
     }
 
-    public List<Cita> listarPorMascota(Long id_mascota){
-        return citaRepository.findByMascotaId(id_mascota);
+    // 👇 NUEVO MÉTODO QUE FALTABA
+    public List<Cita> listarPorFecha(LocalDate fecha){
+
+        LocalDateTime inicio = fecha.atStartOfDay();
+        LocalDateTime fin = fecha.atTime(23,59,59);
+
+        return citaRepository.findByFechaHoraBetween(inicio, fin);
     }
 
-    public List<Cita> listarPorVeterinario (Long id_veterinario){
-        return  citaRepository.findByVeterinario(id_veterinario);
+    public List<Cita> listarTodas(){
+        return citaRepository.findAll();
     }
 
-    public List<Cita> listarPorFecha (LocalDate fecha_cita){
-        return citaRepository.findByFechaCita(fecha_cita);
+    public List<Cita> listarPorMascota(Long idMascota){
+        return citaRepository.findByMascotaId(idMascota);
     }
 
-    public void cambiarEstadoCita (Long cita_id , String estado){
-        Cita cita1 = citaRepository.findById(cita_id).
-                orElseThrow(()->new RuntimeException("No se encontró cita"));
-
-        cita1.setEstado(estado);
-        //Guardamos
-        citaRepository.save(cita1);
+    public List<Cita> listarPorVeterinario(Long idVeterinario){
+        return citaRepository.findByVeterinarioId(idVeterinario);
     }
 
+    public void cambiarEstado(Long citaId, EstadoCita nuevoEstado){
+        Cita cita = citaRepository.findById(citaId)
+                .orElseThrow(() -> new RuntimeException("Cita no encontrada"));
 
-
+        cita.setEstado(nuevoEstado);
+        citaRepository.save(cita);
+    }
 }

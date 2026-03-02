@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="contenido">
+
+    <div class="d-flex justify-content-between mb-3">
+        <h2>Lista de Clientes</h2>
+        <a class="btn btn-success"
+           th:href="@{/admin/clientes/nuevo}">Nuevo Cliente</a>
+    </div>
+
+    <form th:action="@{/admin/clientes/buscar}" method="get"
+          class="mb-3 d-flex">
+        <input type="text" name="texto"
+               class="form-control me-2"
+               placeholder="Buscar por nombre">
+        <button class="btn btn-outline-success">Buscar</button>
+    </form>
+
+    <table class="table table-bordered table-striped">
+        <thead class="table-success">
+        <tr>
+            <th>ID</th>
+            <th>DNI</th>
+            <th>Nombre Completo</th>
+            <th>Teléfono</th>
+            <th>Email</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="c : ${clientes}">
+            <td th:text="${c.id}"></td>
+            <td th:text="${c.dni}"></td>
+            <td th:text="${c.nombres + ' ' + c.apellidos}"></td>
+            <td th:text="${c.telefono}"></td>
+            <td th:text="${c.email}"></td>
+            <td>
+                <a class="btn btn-warning btn-sm"
+                   th:href="@{'/admin/clientes/editar/' + ${c.id}}">
+                    Editar
+                </a>
+
+                <a class="btn btn-danger btn-sm"
+                   th:href="@{'/admin/clientes/eliminar/' + ${c.id}}"
+                   onclick="return confirm('¿Eliminar cliente?')">
+                    Eliminar
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+</body>
+</html>

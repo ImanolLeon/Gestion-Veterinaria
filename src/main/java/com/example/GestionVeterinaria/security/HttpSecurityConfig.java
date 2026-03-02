@@ -26,13 +26,31 @@ public class HttpSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/login", "/error", "/css/**", "/js/**", "/images/**").permitAll();
-                    auth.requestMatchers("/citas/**").hasRole("ADMIN");
+                    auth.requestMatchers("/admin/**").hasRole("ADMIN");
+                    auth.requestMatchers("/user/**").hasRole("USER");
+                    auth.requestMatchers("/citas/**").hasAnyRole("ADMIN","USER");
                     auth.anyRequest().authenticated();
                 })
-                .formLogin(Customizer.withDefaults())
+                .formLogin(form -> form
+                        .successHandler((request, response, authentication) -> {
+
+                            String role = authentication.getAuthorities()
+                                    .iterator()
+                                    .next()
+                                    .getAuthority();
+
+                            if (role.equals("ROLE_ADMIN")) {
+                                response.sendRedirect("/admin/dashboard");
+                            } else if (role.equals("ROLE_USER")) {
+                                response.sendRedirect("/user/dashboard");
+                            } else {
+                                response.sendRedirect("/login?error");
+                            }
+                        })
+                        .permitAll()
+                )
                 .logout(LogoutConfigurer::permitAll)
                 .build();
     }
@@ -41,7 +59,11 @@ public class HttpSecurityConfig {
     public AuthenticationManager authenticationManager(
             UserDetailsService userDetailsService,
             PasswordEncoder passwordEncoder) {
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider(userDetailsService);
+
+        DaoAuthenticationProvider authenticationProvider =
+                new DaoAuthenticationProvider();
+
+        authenticationProvider.setUserDetailsService(userDetailsService);
         authenticationProvider.setPasswordEncoder(passwordEncoder);
 
         return new ProviderManager(authenticationProvider);

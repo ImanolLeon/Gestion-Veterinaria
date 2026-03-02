@@ -2,15 +2,14 @@ package com.example.GestionVeterinaria.repository;
 
 import com.example.GestionVeterinaria.entity.Cliente;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import java.util.List;
+import java.util.Optional;
 
-@Repository
-public interface ClienteRepository extends JpaRepository<Cliente,Long> {
-    //buscar cliente por id
-    Cliente findByDni(String dni);
+public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
-    //Verificar si existe el dni
+    Optional<Cliente> findByDni(String dni);
+
     boolean existsByDni(String dni);
 
-
+    List<Cliente> findByNombresContainingIgnoreCase(String nombres);
 }

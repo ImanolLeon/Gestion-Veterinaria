@@ -1,20 +1,18 @@
 package com.example.GestionVeterinaria.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
-@Table(name ="Mascota")
+@Table(name = "mascota")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Mascota {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,11 +29,11 @@ public class Mascota {
     @Column(nullable = false)
     private int edad;
 
-    @Column (length = 10)
+    @Column(length = 10)
     private String sexo;
 
     @ManyToOne
-    @JoinColumn(name = "cliente_id",nullable = false)
+    @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
 
     @OneToMany(mappedBy = "mascota", cascade = CascadeType.ALL)
@@ -43,6 +41,4 @@ public class Mascota {
 
     @OneToMany(mappedBy = "mascota", cascade = CascadeType.ALL)
     private List<Cita> citas;
-
-
 }

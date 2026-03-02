@@ -1,16 +1,15 @@
 package com.example.GestionVeterinaria.controller;
 
-
 import com.example.GestionVeterinaria.entity.Mascota;
-import org.springframework.ui.Model;
 import com.example.GestionVeterinaria.entity.Cliente;
 import com.example.GestionVeterinaria.service.ClienteService;
 import com.example.GestionVeterinaria.service.MascotaService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/clientes/{clienteId}/mascotas")
+@RequestMapping("/admin/clientes/{clienteId}/mascotas")
 public class MascotaController {
 
     private final MascotaService mascotaService;
@@ -22,12 +21,10 @@ public class MascotaController {
         this.clienteService = clienteService;
     }
 
-    // Listar mascotas del cliente
     @GetMapping
-    public String listarMascotas(@PathVariable Long clienteId, Model model) {
+    public String listar(@PathVariable Long clienteId, Model model) {
 
-        Cliente cliente = clienteService.devolverCliente_id(clienteId);
-
+        Cliente cliente = clienteService.buscarPorId(clienteId);
         model.addAttribute("cliente", cliente);
         model.addAttribute("mascotas",
                 mascotaService.listarPorCliente(clienteId));
@@ -35,9 +32,8 @@ public class MascotaController {
         return "mascotas/listar";
     }
 
-    // Mostrar formulario para registrar mascota
     @GetMapping("/nueva")
-    public String mostrarFormulario(@PathVariable Long clienteId, Model model) {
+    public String nueva(@PathVariable Long clienteId, Model model) {
 
         model.addAttribute("mascota", new Mascota());
         model.addAttribute("clienteId", clienteId);
@@ -45,16 +41,34 @@ public class MascotaController {
         return "mascotas/formulario";
     }
 
-    // Guardar mascota
-    @PostMapping("/guardar")
-    public String guardarMascota(@PathVariable Long clienteId,
-                                 @ModelAttribute Mascota mascota) {
+    @GetMapping("/{mascotaId}/editar")
+    public String editar(@PathVariable Long clienteId,
+                         @PathVariable Long mascotaId,
+                         Model model) {
 
-        mascotaService.registrar(mascota, clienteId);
+        Mascota mascota = mascotaService.buscarPorId(mascotaId);
 
-        return "redirect:/clientes/" + clienteId + "/mascotas";
+        model.addAttribute("mascota", mascota);
+        model.addAttribute("clienteId", clienteId);
+
+        return "mascotas/formulario";
     }
 
+    @PostMapping("/guardar")
+    public String guardar(@PathVariable Long clienteId,
+                          @ModelAttribute Mascota mascota) {
 
+        mascotaService.guardar(mascota, clienteId);
 
+        return "redirect:/admin/clientes/" + clienteId + "/mascotas";
+    }
+
+    @PostMapping("/{mascotaId}/eliminar")
+    public String eliminar(@PathVariable Long clienteId,
+                           @PathVariable Long mascotaId) {
+
+        mascotaService.eliminar(mascotaId);
+
+        return "redirect:/admin/clientes/" + clienteId + "/mascotas";
+    }
 }

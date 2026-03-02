@@ -9,5 +9,6 @@ import java.util.List;
 @Repository
 public interface HistorialClinicoRepository extends JpaRepository<HistorialClinico, Long> {
     List<HistorialClinico> findByMascotaId(Long id_mascota);
+    boolean existsByCitaId(Long citaId);
 
 }
