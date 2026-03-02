@@ -28,8 +28,25 @@ public class HttpSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/login", "/error", "/css/**", "/js/**", "/images/**").permitAll();
-                    auth.requestMatchers("/citas/**").hasRole("ADMIN");
+
+                    // Recursos públicos
+                    auth.requestMatchers("/login", "/error",
+                                    "/css/**", "/js/**", "/images/**")
+                            .permitAll();
+
+                    // ADMIN
+                    auth.requestMatchers("/admin/**")
+                            .hasRole("ADMIN");
+
+                    // VETERINARIO
+                    auth.requestMatchers("/veterinario/**")
+                            .hasRole("VETERINARIO");
+
+                    // RECEPCION puede gestionar citas
+                    auth.requestMatchers("/citas/**")
+                            .hasAnyRole("ADMIN", "RECEPCION");
+
+                    // Todo lo demás requiere login
                     auth.anyRequest().authenticated();
                 })
                 .formLogin(Customizer.withDefaults())

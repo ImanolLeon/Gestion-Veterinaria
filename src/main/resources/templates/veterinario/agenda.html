@@ -1,0 +1,28 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>Mi Agenda</title>
+</head>
+
+<body>
+
+<h2>Mis Citas</h2>
+
+<table class="table">
+  <tr>
+    <th>Fecha</th>
+    <th>Mascota</th>
+    <th>Estado</th>
+  </tr>
+
+  <tbody>
+  <tr th:each="cita : ${citas}">
+    <td th:text="${cita.fechaCita}"></td>
+    <td th:text="${cita.mascota.nombre}"></td>
+    <td th:text="${cita.estado}"></td>
+  </tr>
+  </tbody>
+</table>
+
+</body>
+</html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -10,20 +10,26 @@
 
   <h2>Panel principal</h2>
 
-  <a th:href="@{/clientes/nuevo}">
+  <a th:href="@{/clientes/nuevo}"
+     sec:authorize="hasAnyRole('ADMIN','RECEPCION')">
     + Registrar nuevo cliente
   </a>
   <br><br>
 
-  <a th:href="@{/clientes}">
+  <a th:href="@{/clientes}"
+     sec:authorize="hasAnyRole('ADMIN','RECEPCION')">
 
     Ver clientes registrados
   </a>
     <br><br>
 
-    <a th:href="@{/veterinarios}">
+    <a th:href="@{/veterinarios}"
+       sec:authorize="hasAnyRole('ADMIN','RECEPCION')">
         Ver veterinarios
     </a>
+
+
+
 
 </div>
 </body>

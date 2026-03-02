@@ -15,4 +15,5 @@ public interface CitaRepository extends JpaRepository<Cita,Long> {
     List<Cita> findByFechaCita(LocalDate fechaCita);
     int countByVeterinarioId(Long veterinarioId);
     void deleteById(Long id);
+    List<Cita> findByVeterinarioId(Long veterinarioId);
 }

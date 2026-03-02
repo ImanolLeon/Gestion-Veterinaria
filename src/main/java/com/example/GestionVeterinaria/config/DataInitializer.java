@@ -11,26 +11,27 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class DataInitializer {
 
     @Bean
-    CommandLineRunner initUsers(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder)
-    {
+    CommandLineRunner initUsers(UsuarioRepository usuarioRepository,
+                                PasswordEncoder passwordEncoder) {
 
-        return args ->{
+        return args -> {
 
-            if(usuarioRepository.count()==0) {
+            if (usuarioRepository.count() == 0) {
+
+                // ADMIN
                 Usuarios admin = new Usuarios();
                 admin.setUsername("admin");
                 admin.setPassword(passwordEncoder.encode("admin123"));
                 admin.setRol("ADMIN");
 
-                Usuarios usuario= new Usuarios();
-                usuario.setUsername("usuario");
-                usuario.setPassword(passwordEncoder.encode("usuario"));
-                usuario.setRol("USER");
-
-
+                // RECEPCION (antes USER)
+                Usuarios recepcion = new Usuarios();
+                recepcion.setUsername("recepcion");
+                recepcion.setPassword(passwordEncoder.encode("recepcion123"));
+                recepcion.setRol("RECEPCION");
 
                 usuarioRepository.save(admin);
-                usuarioRepository.save(usuario);
+                usuarioRepository.save(recepcion);
             }
         };
     }

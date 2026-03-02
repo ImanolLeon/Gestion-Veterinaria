@@ -20,8 +20,16 @@
         <td th:text="${cita.mascota.nombre}"></td>
         <td th:text="${cita.veterinario.nombre}"></td>
         <td th:text="${cita.estado}"></td>
-        <td> <button type="button" class="btn btn-danger" >Eliminar</button></td>
-        <td> <button type="button" class="btn btn-success">Marcar como completada</button></td>
+        <td>
+            <form th:action="@{/citas/eliminar/{id}(id=${cita.id})}"
+                  method="post">
+                <button type="submit" class="btn btn-danger">
+                    Eliminar
+                </button>
+            </form>
+        </td>
+        <td>
+            <button type="button" class="btn btn-success">Marcar como completada</button></td>
     </tr>
     </tbody>
 </table>

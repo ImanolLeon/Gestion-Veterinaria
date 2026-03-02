@@ -50,5 +50,11 @@ public class CitaControlador {
 
     }
 
+    @PostMapping("/eliminar/{id}")
+    public String eliminarCita(@PathVariable Long id){
+        citaService.eliminarCita(id);
+        return "redirect:/citas";
+    }
+
 
 }

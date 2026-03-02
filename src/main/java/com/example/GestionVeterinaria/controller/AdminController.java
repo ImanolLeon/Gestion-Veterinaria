@@ -1,16 +1,17 @@
 package com.example.GestionVeterinaria.controller;
 
+import com.example.GestionVeterinaria.entity.Usuarios;
 import com.example.GestionVeterinaria.entity.Veterinario;
+import com.example.GestionVeterinaria.repository.UsuarioRepository;
 import com.example.GestionVeterinaria.service.CitaService;
 import com.example.GestionVeterinaria.service.ClienteService;
 import com.example.GestionVeterinaria.service.VeterinarioService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.parameters.P;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/admin")
@@ -19,12 +20,16 @@ public class AdminController {
     private final ClienteService clienteService;
     private  final VeterinarioService veterinarioService;
     private  final CitaService citaService;
+    private final PasswordEncoder passwordEncoder;
+    private  final UsuarioRepository usuarioRepository;
 
 
-    public AdminController(ClienteService clienteService, VeterinarioService veterinarioService, CitaService citaService) {
+    public AdminController(ClienteService clienteService, VeterinarioService veterinarioService, CitaService citaService, PasswordEncoder passwordEncoder, UsuarioRepository usuarioRepository) {
         this.clienteService = clienteService;
         this.veterinarioService = veterinarioService;
         this.citaService = citaService;
+        this.passwordEncoder = passwordEncoder;
+        this.usuarioRepository = usuarioRepository;
     }
     @GetMapping
     public String panelAdmin(Model model){
@@ -49,5 +54,31 @@ public class AdminController {
     veterinarioService.eliminarVeterinario(id);
         return "redirect:/admin";
     }
+
+
+    // Mostrar formulario
+    @GetMapping("/veterinarios/nuevo")
+    public String mostrarFormulario(Model model) {
+        model.addAttribute("veterinario", new Veterinario());
+        return "admin/crear_veterinario";
+    }
+
+    @PostMapping("/veterinarios/guardar")
+    public String guardarVeterinario(@ModelAttribute Veterinario veterinario,
+                                     @RequestParam String username,
+                                     @RequestParam String password) {
+
+        Veterinario veterinarioGuardado = veterinarioService.registraVeterinario(veterinario);
+
+        Usuarios usuarios = new Usuarios();
+        usuarios.setUsername(username);
+        usuarios.setPassword(passwordEncoder.encode(password));
+        usuarios.setRol("VETERINARIO");
+        usuarios.setVeterinario(veterinarioGuardado);
+        usuarioRepository.save(usuarios);
+        return "redirect:/admin";
+    }
+
+
 
 }

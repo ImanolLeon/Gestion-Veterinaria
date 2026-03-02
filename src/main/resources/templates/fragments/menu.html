@@ -11,14 +11,28 @@
   </div>
 
   <a class="nav-link d-flex align-items-center  me-3"
+     sec:authorize="hasAnyRole('ADMIN','RECEPCION')"
+     th:href="@{/}"
+  >
+    <!-- logo -->
+    <i class="fi fi-sr-book-open-cover me-2"></i>
+    Inicio</a>
 
-     th:href="@{/citas}">
+  <a sec:authorize="hasRole('VETERINARIO')"
+     th:href="@{/veterinarios/agenda}" class="nav-link  d-flex align-items-center me-3">
+    Mi Agenda
+  </a>
+
+  <a class="nav-link d-flex align-items-center  me-3"
+     sec:authorize="hasAnyRole('ADMIN','RECEPCION')"
+     th:href="@{/citas}"
+      >
     <!-- logo -->
     <i class="fi fi-sr-book-open-cover me-2"></i>
     Agenda</a>
 
   <a class="nav-link d-flex align-items-center  me-3"
-
+     sec:authorize="hasAnyRole('ADMIN','RECEPCION')"
      th:href="@{/citas/nueva}">
     <!-- logo -->
     <i class="fi fi-sr-plus me-2 "></i>
@@ -33,6 +47,7 @@
     Administración
   </a>
   <hr>
+
 
   <span class="mb-2  " sec:authorize="isAuthenticated()">
         Usuario: <b sec:authentication="name"></b>
