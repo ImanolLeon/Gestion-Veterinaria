@@ -1,6 +1,4 @@
 package com.example.GestionVeterinaria.controller;
-
-
 import com.example.GestionVeterinaria.entity.Mascota;
 import org.springframework.ui.Model;
 import com.example.GestionVeterinaria.entity.Cliente;
