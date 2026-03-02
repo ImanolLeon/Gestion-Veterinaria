@@ -19,13 +19,15 @@ public class ClienteController {
     @GetMapping
     public String listar(Model model){
         model.addAttribute("clientes",clienteService.listarTodos());
-        return "clientes/listar";
+        model.addAttribute("contenido", "clientes/listar");
+   return "layout/base";
     }
 
     @GetMapping("/nuevo")
     public  String nuevo (Model model){
         model.addAttribute("cliente",new Cliente());
-        return "clientes/formulario";
+        model.addAttribute("contenido","clientes/formulario");
+        return "layout/base";
     }
 
     @PostMapping("/guardar")
@@ -33,7 +35,6 @@ public class ClienteController {
         clienteService.registrar(cliente);
         return "redirect:/clientes";
     }
-
 
 
 

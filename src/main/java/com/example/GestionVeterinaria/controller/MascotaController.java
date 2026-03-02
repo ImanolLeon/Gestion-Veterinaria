@@ -29,8 +29,9 @@ public class MascotaController {
         model.addAttribute("cliente", cliente);
         model.addAttribute("mascotas",
                 mascotaService.listarPorCliente(clienteId));
+        model.addAttribute("contenido","mascotas/listar");
 
-        return "mascotas/listar";
+        return "layout/base";
     }
 
     // Mostrar formulario para registrar mascota
@@ -39,8 +40,8 @@ public class MascotaController {
 
         model.addAttribute("mascota", new Mascota());
         model.addAttribute("clienteId", clienteId);
-
-        return "mascotas/formulario";
+        model.addAttribute("contenido","mascotas/formulario");
+        return "layout/base";
     }
 
     // Guardar mascota

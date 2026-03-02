@@ -24,12 +24,14 @@ public class VeterinarioController
     public String listarVeterinarios(Model model){
         model.addAttribute("veterinarios",veterinarioService.listarTodos());
         model.addAttribute("veterinarioService",veterinarioService);
-        return "veterinarios/listar";
+        model.addAttribute("contenido","veterinarios/listar");
+        return "layout/base";
     }
     @GetMapping("/nuevo")
     public  String nuevoVeterinario(Model model){
         model.addAttribute("veterinario",new Veterinario());
-        return "veterinarios/formulario";
+        model.addAttribute("contenido", "veterinarios/formulario");
+        return "layout/base";
     }
 
     @PostMapping("/guardar")
