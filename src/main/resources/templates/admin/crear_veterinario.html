@@ -1,33 +1,34 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-  <title>Crear Veterinario</title>
+    <title>Crear Veterinario</title>
+
+    <link rel="stylesheet" th:href="@{/css/veterinario.css}">
+    <script defer th:src="@{/js/veterinario.js}"></script>
 </head>
+
 <body>
 
 <h2>Registrar Veterinario</h2>
 
 <form th:action="@{/admin/veterinarios/guardar}" method="post" th:object="${veterinario}">
 
-  <label>Nombre:</label>
-  <input type="text" th:field="*{nombre}" required>
-  <br><br>
+    <label>Nombre:</label>
+    <input type="text" th:field="*{nombre}" required>
 
-  <label>Especialidad:</label>
-  <input type="text" th:field="*{especialidad}" required>
-  <br><br>
+    <label>Especialidad:</label>
+    <input type="text" th:field="*{especialidad}" required>
 
-  <h3>Datos de acceso</h3>
+    <h3>Datos de acceso</h3>
 
-  <label>Username:</label>
-  <input type="text" name="username" required>
-  <br><br>
+    <label>Username:</label>
+    <input type="text" name="username" required>
 
-  <label>Password:</label>
-  <input type="password" name="password" required>
-  <br><br>
+    <label>Password:</label>
+    <input type="password" name="password" required>
 
-  <button type="submit">Guardar</button>
+    <button type="submit">Guardar</button>
 
 </form>
 
