@@ -7,6 +7,7 @@ import com.example.GestionVeterinaria.service.MascotaService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 
@@ -18,10 +19,12 @@ public class CitaControlador {
     private final MascotaService mascotaService;
     private  final VeterinarioRepository veterinarioRepository;
 
+
     public CitaControlador(CitaService citaService, MascotaService mascotaService, VeterinarioRepository veterinarioRepository) {
         this.citaService = citaService;
         this.mascotaService = mascotaService;
         this.veterinarioRepository = veterinarioRepository;
+
     }
 
     @GetMapping
@@ -43,10 +46,17 @@ public class CitaControlador {
     @PostMapping("/guardar")
     public String guardar(@ModelAttribute Cita cita,
                           @RequestParam Long mascotaId,
-                          @RequestParam Long veterinarioId){
+                          @RequestParam Long veterinarioId,
+                          RedirectAttributes redirectAttributes){
 
-        citaService.registrarCita(cita,mascotaId,veterinarioId);
-        return "redirect:/citas";
+        try {
+            citaService.registrarCita(cita, mascotaId, veterinarioId);
+            redirectAttributes.addFlashAttribute("exito", "Cita registrada correctamente");
+            return "redirect:/citas";
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            return "redirect:/citas/nueva";
+        }
 
     }
 

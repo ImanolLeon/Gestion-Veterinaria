@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Repository
@@ -16,4 +17,10 @@ public interface CitaRepository extends JpaRepository<Cita,Long> {
     int countByVeterinarioId(Long veterinarioId);
     void deleteById(Long id);
     List<Cita> findByVeterinarioId(Long veterinarioId);
+    int countByVeterinarioIdAndFechaCita(Long veterinarioId, LocalDate fechaCita);
+    boolean existsByVeterinarioIdAndFechaCitaAndHoraCita(
+            Long veterinarioId,
+            LocalDate fechaCita,
+            LocalTime horaCita
+    );
 }

@@ -23,7 +23,7 @@
         <td  th:text="${c.especialidad}"></td>
         <td  th:text="${c.telefono}"></td>
         <td th:text="${veterinarioService.contarCitas(c.id)}"> </td>
-        <td th:text="${veterinarioService.contarCitas(c.id)>=6 ? 'No disponible' : 'Disponible'}"></td>
+        <td th:text="${veterinarioService.disponibilidadHoy(c.id)}"></td>
 
     </tr>
 

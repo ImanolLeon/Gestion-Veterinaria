@@ -11,7 +11,11 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
-@Table(name = "Cita")
+@Table(
+        uniqueConstraints = @UniqueConstraint(
+                columnNames = {"veterinario_id", "fechaCita", "horaCita"}
+        )
+)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -45,5 +49,6 @@ public class Cita {
     @JoinColumn(name = "veterinario_id",nullable = false)
     private Veterinario veterinario;
 
-
+    @OneToOne(mappedBy = "cita")
+    private HistorialClinico historialClinico;
 }

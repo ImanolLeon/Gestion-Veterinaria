@@ -29,23 +29,38 @@ public class CitaService {
     }
 
 
-    public Cita registrarCita(Cita cita,Long id_Mascota,Long id_Veterinario){
-        //Validar datos
-        Mascota mascota = mascotaRepository.findById(id_Mascota).
-                orElseThrow(()->new RuntimeException("Mascota no encontrada"));
+    public Cita registrarCita(Cita cita, Long id_Mascota, Long id_Veterinario) {
 
-        Veterinario veterinario = veterinarioRepository.findById(id_Veterinario).
-                orElseThrow(()->new RuntimeException("Veterinario no encontrado"));
+        Mascota mascota = mascotaRepository.findById(id_Mascota)
+                .orElseThrow(() -> new RuntimeException("Mascota no encontrada"));
 
-        //Asociamos relaciones
+        Veterinario veterinario = veterinarioRepository.findById(id_Veterinario)
+                .orElseThrow(() -> new RuntimeException("Veterinario no encontrado"));
+
+        // 🔎 Validar cruce exacto de horario
+        if (citaRepository.existsByVeterinarioIdAndFechaCitaAndHoraCita(
+                id_Veterinario,
+                cita.getFechaCita(),
+                cita.getHoraCita())) {
+
+            throw new RuntimeException("El veterinario ya tiene una cita en ese horario");
+        }
+
+        // 🔎 Validar máximo 3 citas por día
+        int cantidad = citaRepository.countByVeterinarioIdAndFechaCita(
+                id_Veterinario,
+                cita.getFechaCita());
+
+        if (cantidad >= 3) {
+            throw new RuntimeException("El veterinario ya tiene 3 citas ese día");
+        }
+
+        // Asociar relaciones
         cita.setMascota(mascota);
         cita.setVeterinario(veterinario);
-
         cita.setEstado("Programada");
 
-        //Para guardar es save
         return citaRepository.save(cita);
-
     }
 
     public List<Cita> listarTodo(){
@@ -70,6 +85,31 @@ public class CitaService {
         cita1.setEstado(estado);
         //Guardamos
         citaRepository.save(cita1);
+    }
+    public void guardarCita(Cita cita) {
+
+        long citasDelDia = citaRepository
+                .countByVeterinarioIdAndFechaCita(
+                        cita.getVeterinario().getId(),
+                        cita.getFechaCita()
+                );
+
+        if (citasDelDia >= 3) {
+            throw new RuntimeException("Veterinario ocupado (máximo 3 citas por día)");
+        }
+
+        boolean cruce = citaRepository
+                .existsByVeterinarioIdAndFechaCitaAndHoraCita(
+                        cita.getVeterinario().getId(),
+                        cita.getFechaCita(),
+                        cita.getHoraCita()
+                );
+
+        if (cruce) {
+            throw new RuntimeException("Ya existe una cita en ese horario");
+        }
+
+        citaRepository.save(cita);
     }
 
     public  void eliminarCita(Long idCita){

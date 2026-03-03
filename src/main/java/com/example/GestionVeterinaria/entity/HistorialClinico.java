@@ -38,6 +38,8 @@ public class HistorialClinico {
     @JoinColumn(name = "mascota_id", nullable = false)
     private Mascota mascota;
 
-
+    @OneToOne
+    @JoinColumn(name = "cita_id", nullable = false, unique = true)
+    private Cita cita;
 
 }

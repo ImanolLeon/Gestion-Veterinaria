@@ -5,7 +5,13 @@
 
 <div class="contenedorCitas">
 <h2>Registrar Cita</h2>
+    <div th:if="${error}" class="alert alert-danger">
+        <span th:text="${error}"></span>
+    </div>
 
+    <div th:if="${exito}" class="alert alert-success">
+        <span th:text="${exito}"></span>
+    </div>
 <form th:action="@{/citas/guardar}"
       th:object="${cita}"
       method="post">
