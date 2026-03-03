@@ -13,6 +13,7 @@
     <th>Fecha</th>
     <th>Mascota</th>
     <th>Estado</th>
+    <th scope="col"> </th>
   </tr>
 
   <tbody>
@@ -20,6 +21,14 @@
     <td th:text="${cita.fechaCita}"></td>
     <td th:text="${cita.mascota.nombre}"></td>
     <td th:text="${cita.estado}"></td>
+    <td>
+      <form th:action="@{/historial/crear/{id}(id=${cita.id})}"
+            method="get">
+        <button type="submit" class="btn btn-success">
+          Atender
+        </button>
+      </form>
+    </td>
   </tr>
   </tbody>
 </table>

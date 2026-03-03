@@ -20,10 +20,10 @@ public class HistorialClinico {
     private Long id;
 
     @Column(name = "fecha_Consulta")
-    private LocalDate fecha_consulta;
+    private LocalDate fechaConsulta;
 
     @Column (length = 200)
-    private String diganostico;
+    private String diagnostico;
 
 
     @Column (length = 200)

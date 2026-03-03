@@ -41,7 +41,8 @@ public class CitaService {
         if (citaRepository.existsByVeterinarioIdAndFechaCitaAndHoraCita(
                 id_Veterinario,
                 cita.getFechaCita(),
-                cita.getHoraCita())) {
+                cita.getHoraCita(),
+                 "Programada")) {
 
             throw new RuntimeException("El veterinario ya tiene una cita en ese horario");
         }
@@ -102,7 +103,8 @@ public class CitaService {
                 .existsByVeterinarioIdAndFechaCitaAndHoraCita(
                         cita.getVeterinario().getId(),
                         cita.getFechaCita(),
-                        cita.getHoraCita()
+                        cita.getHoraCita(),
+                        "Programada"
                 );
 
         if (cruce) {

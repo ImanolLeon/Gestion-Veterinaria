@@ -49,6 +49,6 @@ public class Cita {
     @JoinColumn(name = "veterinario_id",nullable = false)
     private Veterinario veterinario;
 
-    @OneToOne(mappedBy = "cita")
+    @OneToOne(mappedBy = "cita", cascade = CascadeType.ALL, orphanRemoval = true)
     private HistorialClinico historialClinico;
 }
